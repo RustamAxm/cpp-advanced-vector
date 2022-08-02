@@ -273,17 +273,14 @@ public:
             } else {
                 /* Скопировать элементы из rhs, создав при необходимости новые
                    или удалив существующие */
+                for (size_t i = 0; i < std::min(size_, rhs.size_); ++i) {
+                    data_[i] = rhs.data_[i];
+                }
                 if (size_ < rhs.size_) {
-                    for (size_t i = 0; i < size_; ++i) {
-                        data_[i] = rhs.data_[i];
-                    }
                     std::uninitialized_copy_n(rhs.data_.GetAddress(),
                                               rhs.size_ - size_,
                                               data_.GetAddress() + size_);
                 } else {
-                    for (size_t i = 0; i < rhs.size_; ++i) {
-                        data_[i] = rhs.data_[i];
-                    }
                     std::destroy_n(data_.GetAddress() + rhs.size_,
                                    size_ - rhs.size_);
                 }
